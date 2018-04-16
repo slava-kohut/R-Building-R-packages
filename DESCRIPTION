@@ -1,0 +1,22 @@
+Package: farsr
+Title: Utility functions for the FARS (Fatality Analysis Reporting System)
+	dataset 
+Version: 0.1
+Authors@R: person("Slava", "Kohut", email = "svkohut@gmail.com",
+	role = c("aut", "cre"))
+Description: Utility functions for the FARS (Fatality Analysis Reporting
+	System) dataset 
+Depends: R (>= 3.4.4)
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Imports:
+	dplyr,
+	graphics,
+	maps,
+	readr,
+	tidyr
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
