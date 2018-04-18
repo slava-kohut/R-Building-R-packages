@@ -19,8 +19,7 @@ file does not exist.
 }
 \examples{
 \donttest{
-fars_read(filename = '../data/accident_2013.csv.bz2')
-fars_read('accident_2013.csv.bz2')
+fars_read(filename = './raw-data/accident_2013.csv.bz2')
 }
 
 }
