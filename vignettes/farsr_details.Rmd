@@ -1,5 +1,5 @@
 ---
-title: "Vignette Title"
+title: "Overview of farsr"
 author: "Slava Kohut"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -12,54 +12,51 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = 'center',
   comment = "#>"
 )
+
+devtools::load_all('/home/stanley/coursera/2018-r-packages/farsr/')
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+# Introduction
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+The goal of  __farsr__ is to provide a set of tools for working with
+the Fatality Analysis Reporting System (FARS) data. 
+There are five functions that come with the package:
 
-## Vignette Info
+1. _make\_filename_
+2. _fars\_read_
+3. _fars\_read\_years_
+4. _fars\_summarize\_years_ 
+5. _fars\_map\_state_
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+# Functions 
 
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+_make\_filename_ generates a standard filename using a year:
+```{r}
+make_filename(2013)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+_fars\_read_ is the basic function for reading data sets. An error will be raised if the input file does not exist.
+```{r}
+setwd('../raw-data')
+fars_read(make_filename(2013))
 ```
 
-Also a quote using `>`:
+_fars\_read\_years_ is a wrapper around _fars\_read_ and _make\_filename_ for reading multiple files in a list.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+_fars\_read\_years_ uses some _dplyr_ functions to generate a summary (by-month counts) of accidents for a data set for a given year: 
+```{r}
+setwd('../raw-data')
+fars_summarize_years(2013:2014)
+```
+
+_fars\_map\_state_ projects all accidents for an input state and year on a state polygon.
+The code below generates a map for California 2015 data.
+```{r, fig.width=8, fig.height=8}
+setwd('../raw-data')
+fars_map_state(6,2015)
+```
